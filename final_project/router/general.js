@@ -96,7 +96,7 @@ public_users.post("/register", (req, res) => {
   return res.status(200).json({ message: "Customer successfully registered. Now you can login" });
 });
 
-// ตัวอย่างการใช้ Axios เรียก Async/Promise ใน general.js
+//------------
 const axios = require('axios');
 
 // Task 10: Get all books using async-await
@@ -107,4 +107,38 @@ public_users.get('/async/books', async function (req, res) {
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
+});
+
+// Task 11: Get book details based on ISBN using Promises
+public_users.get('/async/isbn/:isbn', function (req, res) {
+    const isbn = req.params.isbn;
+    axios.get(`http://localhost:5000/isbn/${isbn}`)
+        .then(response => {
+            return res.status(200).json(response.data);
+        })
+        .catch(error => {
+            return res.status(500).json({ message: error.message });
+        });
+});
+
+// Task 12: Get book details based on Author using async-await
+public_users.get('/async/author/:author', async function (req, res) {
+    try {
+        const author = req.params.author;
+        const response = await axios.get(`http://localhost:5000/author/${author}`);
+        return res.status(200).json(response.data);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+});
+
+// Task 13: Get book details based on Title using async-await
+public_users.get('/async/title/:title', async function (req, res) {
+    try {
+        const title = req.params.title;
+        const response = await axios.get(`http://localhost:5000/title/${title}`);
+        return res.status(200).json(response.data);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
 });
